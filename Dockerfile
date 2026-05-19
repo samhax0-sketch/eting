@@ -31,5 +31,6 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
         sys.exit(0 if urllib.request.urlopen(f'http://127.0.0.1:{port}/api/health',timeout=3).status==200 else 1)" \
         || exit 1
 
-# Start command — sh -c supaya $PORT ter-expand
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000} --proxy-headers --forwarded-allow-ips=*"]
+# Start command — gunicorn + UvicornWorker (production-grade untuk FastAPI/ASGI)
+# sh -c dipakai supaya $PORT ter-expand di runtime.
+CMD ["sh", "-c", "gunicorn main:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT:-8000} --timeout 600 --forwarded-allow-ips=*"]

@@ -33,9 +33,24 @@ command = "pip install --no-cache-dir -r requirements.txt"
 # -----------------------------------------------------------
 [run]
 # $PORT diisi otomatis oleh Leapcell.
-# --proxy-headers + --forwarded-allow-ips supaya FastAPI baca
-# IP asli client di balik load balancer Leapcell.
-command = "uvicorn main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips=*"
+#
+# Pakai gunicorn + UvicornWorker karena:
+#   1. Default template Leapcell jalankan `gunicorn ... your_app.wsgi`
+#      jadi binary `gunicorn` HARUS ada di environment.
+#   2. UvicornWorker = ASGI worker, kompatibel penuh dengan FastAPI
+#      (kalau pakai gunicorn vanilla, FastAPI tidak akan jalan).
+#   3. --workers 2 = cukup untuk free tier 256MB. Naikkan kalau
+#      RAM lebih besar (rule of thumb: 2 * cpu + 1).
+#   4. --forwarded-allow-ips=* supaya client IP terbaca lewat
+#      proxy/load balancer Leapcell.
+#
+# PENTING: Leapcell sering pakai default template start command
+# (`gunicorn --workers 1 --bind :8080 --timeout 600 your_app.wsgi`)
+# yang TIDAK membaca file ini. Kalau deploy gagal dengan error
+# `your_app.wsgi: not found`, BUKA dashboard Leapcell → Service
+# Settings → Start Command → paste command di bawah ini secara
+# manual sebagai override. Lihat DEPLOY-LEAPCELL.md langkah 4.
+command = "gunicorn main:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 600 --forwarded-allow-ips=*"
 
 # -----------------------------------------------------------
 #  HTTP / networking
