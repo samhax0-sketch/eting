@@ -46,11 +46,48 @@ from pydantic import BaseModel, Field
 #  Setup paths
 # ============================================================
 BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR / "data"
-DATA_DIR.mkdir(exist_ok=True)
 
+# Pilih DATA_DIR yang writeable:
+#   1. ENV LEAPCELL_DATA_DIR (kalau di-set manual via dashboard)
+#   2. BASE_DIR/data (development lokal)
+#   3. /tmp/eting_data (Leapcell / serverless — filesystem app read-only,
+#      hanya /tmp yang writeable, tapi ephemeral antar request)
+#   4. Fallback in-memory (kalau /tmp pun gagal — leaderboard akan reset
+#      setiap restart container)
+def _pick_data_dir() -> tuple[Path, bool]:
+    """Return (DATA_DIR, is_persistent). is_persistent=False berarti
+    pakai memory fallback (tidak nulis file sama sekali)."""
+    candidates = []
+    env_dir = os.environ.get("LEAPCELL_DATA_DIR") or os.environ.get("DATA_DIR")
+    if env_dir:
+        candidates.append(Path(env_dir))
+    candidates.append(BASE_DIR / "data")
+    candidates.append(Path("/tmp") / "eting_data")
+    for cand in candidates:
+        try:
+            cand.mkdir(parents=True, exist_ok=True)
+            # Test write permission dengan probe file
+            probe = cand / ".write_test"
+            probe.write_text("ok", encoding="utf-8")
+            probe.unlink(missing_ok=True)
+            return cand, True
+        except (OSError, PermissionError):
+            continue
+    # Semua kandidat gagal — pakai in-memory storage
+    return BASE_DIR, False
+
+
+DATA_DIR, _STORAGE_PERSISTENT = _pick_data_dir()
 LEADERBOARD_FILE = DATA_DIR / "leaderboard.json"
 _FILE_LOCK = threading.Lock()  # supaya tidak konflik tulis bersamaan
+
+# In-memory fallback storage (dipakai kalau filesystem 100% read-only)
+_MEMORY_LEADERBOARD: List[dict] = []
+
+print(
+    f"[ETING] DATA_DIR={DATA_DIR} persistent={_STORAGE_PERSISTENT}",
+    flush=True,
+)
 
 
 # ============================================================
@@ -179,7 +216,17 @@ SEED_LEADERBOARD: List[dict] = [
 #  Persistence Helpers
 # ============================================================
 def _load_leaderboard() -> List[dict]:
-    """Baca file leaderboard.json, atau buat dari SEED kalau belum ada."""
+    """Baca file leaderboard.json, atau buat dari SEED kalau belum ada.
+    Kalau filesystem read-only, pakai in-memory storage."""
+    global _MEMORY_LEADERBOARD
+
+    # In-memory mode (filesystem 100% read-only)
+    if not _STORAGE_PERSISTENT:
+        if not _MEMORY_LEADERBOARD:
+            _MEMORY_LEADERBOARD = list(SEED_LEADERBOARD)
+        return list(_MEMORY_LEADERBOARD)
+
+    # File-based mode
     if not LEADERBOARD_FILE.exists():
         _save_leaderboard(SEED_LEADERBOARD)
         return list(SEED_LEADERBOARD)
@@ -195,9 +242,24 @@ def _load_leaderboard() -> List[dict]:
 
 
 def _save_leaderboard(data: List[dict]) -> None:
-    with _FILE_LOCK:
-        with LEADERBOARD_FILE.open("w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+    """Tulis leaderboard ke disk; fallback ke memory kalau filesystem
+    read-only atau write gagal."""
+    global _MEMORY_LEADERBOARD
+
+    # In-memory mode
+    if not _STORAGE_PERSISTENT:
+        _MEMORY_LEADERBOARD = list(data)
+        return
+
+    # File-based mode (best-effort, tidak crash kalau gagal)
+    try:
+        with _FILE_LOCK:
+            with LEADERBOARD_FILE.open("w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+    except OSError as e:
+        # Filesystem tiba-tiba read-only saat runtime — switch ke memory
+        print(f"[ETING] WARN: gagal tulis leaderboard ({e}), fallback memory", flush=True)
+        _MEMORY_LEADERBOARD = list(data)
 
 
 # ============================================================
