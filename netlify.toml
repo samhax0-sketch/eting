@@ -1,0 +1,104 @@
+# ============================================================
+#  Netlify deployment manifest — ETING (frontend-only)
+# ============================================================
+#  Project ETING dibagi dua:
+#    1. Frontend (HTML/CSS/JS)   → di-host di Netlify (file ini)
+#    2. Backend FastAPI (main.py) → opsional, di Leapcell
+#
+#  Netlify dipakai HANYA untuk static hosting karena:
+#    - Leaderboard sudah langsung ke Supabase dari frontend
+#      (lihat assets/js/supabase-client.js)
+#    - Gambar di-load dari Wix CDN
+#    - Kuis & game logic 100% di JS
+#  Jadi Python backend TIDAK perlu di-deploy di sini.
+#
+#  Konfigurasi ini meng-override auto-detect Netlify yang biasanya
+#  ketipu oleh runtime.txt / requirements.txt → install Python →
+#  GAGAL (mise gak punya python-3.11.9 precompiled).
+# ============================================================
+
+[build]
+  # Tidak ada build step — semua file sudah static.
+  command   = "echo 'Static site — no build needed'"
+  publish   = "."
+  # Hindari Netlify mencoba install Python/Ruby/Go dari runtime files.
+  ignore    = "/bin/false"
+
+[build.environment]
+  # Eksplisit kosongkan agar Netlify tidak baca runtime.txt
+  PYTHON_VERSION = ""
+  # Pakai Node modern untuk Edge Functions (kalau nanti dibutuhkan)
+  NODE_VERSION   = "20"
+
+# ------------------------------------------------------------
+#  Routing — friendly URLs (opsional, biar tanpa .html)
+# ------------------------------------------------------------
+[[redirects]]
+  from   = "/main-game"
+  to     = "/main-game.html"
+  status = 200
+
+[[redirects]]
+  from   = "/materi-hukum"
+  to     = "/materi-hukum.html"
+  status = 200
+
+[[redirects]]
+  from   = "/puzzle-menenun"
+  to     = "/puzzle-menenun.html"
+  status = 200
+
+# Endpoint API lama (kalau ada link luar yang masih nyangkut)
+# diarahkan ke Supabase langsung — di sini cukup 404 dengan pesan.
+[[redirects]]
+  from   = "/api/*"
+  to     = "/index.html"
+  status = 404
+
+# SPA fallback — terakhir, agar route yang tak dikenal balik ke index.
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 404
+
+# ------------------------------------------------------------
+#  Headers — performance & security
+# ------------------------------------------------------------
+
+# HTML: jangan cache lama, biar update cepat sampai ke siswa
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control           = "public, max-age=0, must-revalidate"
+    X-Content-Type-Options  = "nosniff"
+    Referrer-Policy         = "strict-origin-when-cross-origin"
+
+# Asset JS/CSS pakai query ?v=N untuk cache-bust, jadi aman di-cache
+# lama. Ini penting untuk 300 siswa: load sekali → cache di browser.
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Gambar lokal (fallback) — cache lama juga
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ------------------------------------------------------------
+#  Files yang TIDAK perlu ikut di-publish
+#  (lihat juga .gitignore / .leapcellignore)
+# ------------------------------------------------------------
+# Catatan: Netlify auto-skip file yang gak di publish dir, tapi
+# kita publish "." (root) jadi perlu eksplisit lewat ignore file.

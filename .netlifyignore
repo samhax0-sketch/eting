@@ -1,0 +1,30 @@
+# File-file backend Python TIDAK ikut di-publish ke Netlify.
+# Netlify cuma hosting static frontend.
+main.py
+wsgi.py
+your_app.py
+requirements.txt
+runtime.txt
+Procfile
+Dockerfile
+.dockerignore
+.leapcellignore
+leapcell.toml
+DEPLOY-LEAPCELL.md
+README-server.md
+
+# Folder data leaderboard lokal (sudah di Supabase)
+data/
+tools/
+
+# File aneh/error
+$($img.Width)
+
+# Cache & meta
+.agent/
+.kilocode/
+.kluster/
+.playwright-mcp/
+.roo/
+.git/
+.gitignore

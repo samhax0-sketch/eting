@@ -1,0 +1,71 @@
+# ============================================================
+#  ETING — .gitignore
+# ============================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+.Python
+develop-eggs/
+parts/
+sdist/
+var/
+wheels/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual env
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Data lokal (jangan commit data runtime)
+data/leaderboard.json
+data/*.bak
+
+# Env / secrets (JANGAN PERNAH commit ini)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Leapcell local cache (jika ada)
+.leapcell/
