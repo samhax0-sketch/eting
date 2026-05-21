@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Game | ETING - Edukasi Interaktif Tenun dan Hukum</title>
+    <link rel="stylesheet" href="styles.css?v=34">
+    <script src="assets/js/page-loader.js?v=2"></script>
+    <script src="assets/js/supabase-client.js?v=1"></script>
+    <script src="assets/js/eting-confirm.js?v=1"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo (klik kembali ke beranda) -->
+            <a href="index.html" class="navbar-logo" aria-label="Kembali ke Beranda">
+                <img src="https://static.wixstatic.com/media/215118_3266d783c4694adaa23af2f778facf46~mv2.png" alt="ETING Logo" class="logo-img">
+                <div class="logo-separator"></div>
+                <div class="logo-text">
+                    <span class="logo-school">SMK NEGERI 18 SAMARINDA</span>
+                    <span class="logo-title">ETING</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <ul class="navbar-links">
+                <li>
+                    <a href="index.html" class="nav-link">
+                        <span class="material-symbols-rounded">home</span>
+                        Beranda
+                    </a>
+                </li>
+                <li>
+                    <a href="main-game.html" class="nav-link active">
+                        <span class="material-symbols-rounded">sports_esports</span>
+                        Main Game
+                    </a>
+                </li>
+                <li>
+                    <a href="materi-hukum.html" class="nav-link">
+                        <span class="material-symbols-rounded">menu_book</span>
+                        Materi Hukum
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="navbar-toggle" aria-label="Toggle menu">
+                <span class="material-symbols-rounded">menu</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ========== MAIN GAME SECTION ========== -->
+    <main class="game-page">
+        <div class="game-page-container">
+
+            <!-- ========== GAME HUB (Pilihan Game) ========== -->
+            <section class="game-hub" id="gameHub">
+                <div class="game-hub-header">
+                    <span class="game-hub-eyebrow">
+                        <span class="material-symbols-rounded">stadia_controller</span>
+                        ETING Game Hub
+                    </span>
+                    <h1 class="game-hub-title">Pilih Mode Permainanmu</h1>
+                    <p class="game-hub-subtitle">3 mini-game edukatif anti-judol. Belajar hukum sambil bersenang-senang!</p>
+                    <div class="hub-actions">
+                        <button type="button" class="hub-action-btn hub-action-profile" id="hubBtnOpenProfile">
+                            <span class="material-symbols-rounded">badge</span>
+                            <span class="hub-action-text">
+                                <span class="hub-action-title">Profil Pemain</span>
+                                <span class="hub-action-sub">Atur nama & sekolah</span>
+                            </span>
+                        </button>
+                        <button type="button" class="hub-action-btn hub-action-leaderboard" id="hubBtnOpenLeaderboard">
+                            <span class="material-symbols-rounded">leaderboard</span>
+                            <span class="hub-action-text">
+                                <span class="hub-action-title">Leaderboard</span>
+                                <span class="hub-action-sub">Skor tertinggi semua game</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="game-hub-grid">
+                    <!-- Game 1: Flappy Eting -->
+                    <article class="game-card game-card-flappy" data-game="flappy">
+                        <div class="game-card-thumb">
+                            <span class="game-card-badge">Aksi</span>
+                            <img src="https://static.wixstatic.com/media/215118_4fe5bb7be98b44bf86433d8ca183c04f~mv2.png" alt="Flappy Eting" class="game-card-img">
+                        </div>
+                        <div class="game-card-body">
+                            <h3 class="game-card-title">Flappy Eting</h3>
+                            <p class="game-card-desc">Bantu burung Enggang Kalimantan melewati rintangan judol. Kumpulkan koin, jawab quiz, naik level!</p>
+                            <ul class="game-card-meta">
+                                <li>⚡ Refleks</li>
+                                <li>🏆 Skor Online</li>
+                            </ul>
+                            <button type="button" class="game-card-btn" data-launch="flappy">
+                                ▶ Mainkan
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Game 2: Puzzle Menenun -->
+                    <article class="game-card game-card-quiz" data-game="quiz">
+                        <div class="game-card-thumb">
+                            <span class="game-card-badge">Puzzle</span>
+                            <img src="https://static.wixstatic.com/media/215118_af21caed4bbf4f548f0bf72bd6a6e3f8~mv2.png" alt="Puzzle Menenun" class="game-card-img">
+                        </div>
+                        <div class="game-card-body">
+                            <h3 class="game-card-title">Puzzle Menenun</h3>
+                            <p class="game-card-desc">Susun potongan kain tenun Kalimantan, lalu jawab soal pengetahuan untuk skor bonus!</p>
+                            <ul class="game-card-meta">
+                                <li>🧩 Logika</li>
+                                <li>🧵 Budaya Tenun</li>
+                            </ul>
+                            <a href="puzzle-menenun.html" class="game-card-btn" style="text-decoration:none;display:inline-block">
+                                ▶ Mainkan
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Game 3: Tebak Pasal -->
+                    <article class="game-card game-card-pasal" data-game="pasal">
+                        <div class="game-card-thumb">
+                            <span class="game-card-badge">Hukum</span>
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 140'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%234a1a08'/><stop offset='1' stop-color='%237c1212'/></linearGradient></defs><rect width='200' height='140' fill='url(%23g)'/><g fill='%23fde68a'><rect x='40' y='28' width='120' height='84' rx='8' fill='%23fff8eb' stroke='%234a1a08' stroke-width='3'/><rect x='52' y='42' width='96' height='6' rx='3'/><rect x='52' y='56' width='80' height='4' rx='2'/><rect x='52' y='66' width='90' height='4' rx='2'/><rect x='52' y='76' width='72' height='4' rx='2'/><rect x='52' y='86' width='86' height='4' rx='2'/><text x='100' y='126' text-anchor='middle' font-family='sans-serif' font-size='14' font-weight='700' fill='%23fde68a'>UU ITE</text></g></svg>" alt="Tebak Pasal" class="game-card-img">
+                        </div>
+                        <div class="game-card-body">
+                            <h3 class="game-card-title">Tebak Pasal</h3>
+                            <p class="game-card-desc">Diberi deskripsi kasus judol, tebak pasal & UU yang dilanggar. Jadi paham hukum!</p>
+                            <ul class="game-card-meta">
+                                <li>📖 UU ITE &amp; KUHP</li>
+                                <li>🎓 Edukatif</li>
+                            </ul>
+                            <button type="button" class="game-card-btn" data-launch="pasal">
+                                ▶ Mainkan
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+            </section>
+
+            <!-- ========== MODAL: PROFIL & LEADERBOARD ========== -->
+            <div class="hub-modal" id="hubProfilePanel" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hubModalTitle">
+                <div class="hub-modal-backdrop" data-hub-close></div>
+                <div class="hub-modal-dialog" role="document">
+                    <!-- Header merah ala desain quiz -->
+                    <div class="hub-modal-header">
+                        <div class="hub-modal-mascot">
+                            <span class="material-symbols-rounded">stadia_controller</span>
+                        </div>
+                        <div class="hub-modal-headtext">
+                            <h2 class="hub-modal-title" id="hubModalTitle">Profil &amp; Leaderboard</h2>
+                            <p class="hub-modal-subtitle">Atur identitasmu &amp; lihat top skor semua game.</p>
+                        </div>
+                        <button type="button" class="hub-modal-close" data-hub-close aria-label="Tutup">
+                            <span class="material-symbols-rounded">close</span>
+                        </button>
+                    </div>
+
+                    <!-- Body cream -->
+                    <div class="hub-modal-body">
+                        <div class="hub-profile-grid">
+                            <!-- KIRI: Form profil pemain -->
+                            <div class="hub-profile-form-wrap">
+                                <div class="hub-profile-head">
+                                    <span class="material-symbols-rounded hub-profile-icon">badge</span>
+                                    <div>
+                                        <h3 class="hub-profile-title">Profil Pemain</h3>
+                                        <p class="hub-profile-desc">Isi nama &amp; sekolah dulu supaya skormu masuk leaderboard.</p>
+                                    </div>
+                                </div>
+                                <div class="hub-profile-form">
+                                    <label class="hub-profile-label" for="hubInputName">
+                                        <span class="material-symbols-rounded">person</span>
+                                        Nama
+                                    </label>
+                                    <input type="text" id="hubInputName" class="game-input hub-profile-input"
+                                        placeholder="Nama kamu..." maxlength="16" autocomplete="off">
+
+                                    <label class="hub-profile-label" for="hubInputSchool">
+                                        <span class="material-symbols-rounded">school</span>
+                                        Asal Sekolah
+                                    </label>
+                                    <input type="text" id="hubInputSchool" class="game-input hub-profile-input"
+                                        placeholder="mis. SMK Negeri 18 Samarinda" maxlength="48" autocomplete="off">
+
+                                    <button type="button" class="game-btn game-btn-primary hub-profile-save" id="hubBtnSaveProfile">
+                                        <span class="material-symbols-rounded">check_circle</span>
+                                        Simpan Profil
+                                    </button>
+                                    <p class="hub-profile-hint" id="hubProfileHint">Belum tersimpan.</p>
+                                </div>
+                            </div>
+
+                            <!-- KANAN: Leaderboard -->
+                            <div class="hub-leaderboard-wrap">
+                                <div class="hub-lb-head">
+                                    <span class="material-symbols-rounded hub-lb-icon">leaderboard</span>
+                                    <div class="hub-lb-titles">
+                                        <h3 class="hub-lb-title">Top Pemain</h3>
+                                        <p class="hub-lb-desc">Akumulasi skor tertinggi dari semua mini-game.</p>
+                                    </div>
+                                    <button type="button" class="hub-lb-refresh" id="hubBtnRefreshLeaderboard"
+                                        aria-label="Muat ulang leaderboard">
+                                        <span class="material-symbols-rounded">refresh</span>
+                                    </button>
+                                </div>
+                                <div class="hub-lb-list" id="hubLeaderboardList">
+                                    <div class="hub-lb-empty">Memuat leaderboard...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== SECTION: FLAPPY ENGGANG ========== -->
+            <section class="game-section game-section-hidden" id="sectionFlappy">
+                <div class="game-section-bar">
+                    <button type="button" class="game-back-btn" data-back>
+                        <span class="material-symbols-rounded">arrow_back</span>
+                        Pilih Game Lain
+                    </button>
+                    <h2 class="game-section-title">
+                        <span class="material-symbols-rounded">flutter_dash</span>
+                        Flappy Eting
+                    </h2>
+                </div>
+
+            <!-- Bingkai kayu (hanya tampil desktop) -->
+            <div class="game-wood-frame">
+                <!-- Judul game (hanya tampil desktop) -->
+                <div class="game-wood-title">
+                    <h1>Bermain Game Bersama ETING untuk Mencegah Judol</h1>
+                </div>
+
+                <div class="game-canvas-wrapper">
+                    <!-- HUD -->
+                    <div class="game-hud">
+                        <div class="hud-item hud-player">
+                            <span class="material-symbols-rounded">person</span>
+                            <span id="hudPlayer">Pemain</span>
+                        </div>
+                        <div class="hud-item hud-score">
+                            <span class="material-symbols-rounded">stars</span>
+                            <span>Skor: <b id="hudScore">0</b></span>
+                        </div>
+                        <div class="hud-item hud-level">
+                            <span class="material-symbols-rounded">military_tech</span>
+                            <span>Lv: <b id="hudLevel">1</b></span>
+                        </div>
+                        <div class="hud-item hud-coins">
+                            <span class="material-symbols-rounded">paid</span>
+                            <span>Koin: <b id="hudCoins">0</b></span>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Game -->
+                    <canvas id="gameCanvas" width="1280" height="500"></canvas>
+
+                    <!-- ========== LOADING SCREEN (di dalam frame game) ========== -->
+                    <div class="game-loading-screen" id="gameLoadingScreen">
+                        <div class="loading-bg-pattern"></div>
+                        <div class="loading-content">
+                            <div class="loading-logo">
+                                <div class="loading-logo-icon">
+                                    <img src="https://static.wixstatic.com/media/215118_3266d783c4694adaa23af2f778facf46~mv2.png" alt="ETING Logo" onerror="this.style.display='none'">
+                                </div>
+                                <h1 class="loading-title">ETING</h1>
+                                <p class="loading-subtitle">Edukasi Interaktif Tenun &amp; Hukum</p>
+                            </div>
+
+                            <div class="loading-bird">
+                                <span class="material-symbols-rounded">flutter_dash</span>
+                            </div>
+
+                            <div class="loading-progress-wrap">
+                                <div class="loading-progress-track">
+                                    <div class="loading-progress-bar" id="loadingProgressBar"></div>
+                                    <div class="loading-progress-shimmer"></div>
+                                </div>
+                                <div class="loading-progress-info">
+                                    <span class="loading-status" id="loadingStatus">Mempersiapkan permainan...</span>
+                                    <span class="loading-percent" id="loadingPercent">0%</span>
+                                </div>
+                            </div>
+
+                            <div class="loading-tips">
+                                <span class="material-symbols-rounded">lightbulb</span>
+                                <span id="loadingTip">Tip: Klik atau tap layar untuk membuat burung terbang!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- overlayName dipindah ke Hub (#hubProfilePanel). Stub disisakan agar referensi JS di game.js (inputPlayerName, inputPlayerSchool, btnSaveName) tidak error. -->
+                    <div class="game-overlay game-overlay-hidden" id="overlayName" hidden aria-hidden="true" style="display:none">
+                        <div class="overlay-card">
+                            <input type="hidden" id="inputPlayerName">
+                            <input type="hidden" id="inputPlayerSchool">
+                            <button type="button" id="btnSaveName" hidden></button>
+                        </div>
+                    </div>
+
+                    <!-- Overlay Start -->
+                    <div class="game-overlay game-overlay-hidden" id="overlayStart">
+                        <div class="overlay-card">
+                            <div class="overlay-icon">
+                                <span class="material-symbols-rounded">sports_esports</span>
+                            </div>
+                            <h2>Siap Terbang, <span id="greetName">Pemain</span>?</h2>
+                            <p>Bantu burung Enggang melewati rintangan judi online. Jawab pertanyaan dengan benar untuk
+                                hidup lagi & dapat poin!</p>
+                            <div class="overlay-actions">
+                                <button class="game-btn game-btn-primary" id="btnStart">
+                                    <span class="material-symbols-rounded">play_arrow</span>
+                                    Mulai Main
+                                </button>
+                                <button class="game-btn game-btn-secondary" id="btnChangeName">
+                                    <span class="material-symbols-rounded">manage_accounts</span>
+                                    Edit Profil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overlay Game Over -->
+                    <div class="game-overlay game-overlay-hidden" id="overlayGameOver">
+                        <div class="overlay-card">
+                            <div class="overlay-icon overlay-icon-danger">
+                                <span class="material-symbols-rounded">skull</span>
+                            </div>
+                            <h2>Kamu Kalah, <span id="loseName">Pemain</span>!</h2>
+                            <p>Skor akhir: <b id="finalScore">0</b></p>
+                            <p class="overlay-hint">Mau hidup lagi? Jawab pertanyaan dengan benar!</p>
+                            <div class="overlay-actions">
+                                <button class="game-btn game-btn-revive" id="btnRevive">
+                                    <span class="material-symbols-rounded">favorite</span>
+                                    Hidup Lagi
+                                </button>
+                                <button class="game-btn game-btn-secondary" id="btnRestart">
+                                    <span class="material-symbols-rounded">restart_alt</span>
+                                    Main Lagi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overlay "JUARA" Checkpoint (auto, tanpa tombol) -->
+                    <div class="champion-overlay" id="overlayCheckpoint">
+                        <div class="champion-stage">
+                            <div class="champion-rays"></div>
+                            <div class="champion-trophy">
+                                <span class="material-symbols-rounded">emoji_events</span>
+                            </div>
+                            <div class="champion-title">LEVEL UP!</div>
+                            <div class="champion-sub">Level <b id="newLevel">2</b></div>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Overlay (5-4-3-2-1-GO!) -->
+                    <div class="game-countdown" id="gameCountdown">
+                        <div class="countdown-number" id="countdownNumber">5</div>
+                        <div class="countdown-label" id="countdownLabel">Bersiap...</div>
+                    </div>
+
+                    <!-- Hint kecil — muncul setelah countdown selesai, hilang saat player tap -->
+                    <div class="ready-hint" id="readyHint">
+                        <span class="material-symbols-rounded">touch_app</span>
+                        <span>Klik / Tap untuk Mulai</span>
+                    </div>
+
+                    <!-- gameLeaderboardPanel dipindah ke Hub (#hubProfilePanel > #hubLeaderboardList). Stub disisakan agar refreshLeaderboard() di game.js tidak error. -->
+                    <div id="gameLeaderboardPanel" hidden style="display:none">
+                        <div id="gameLeaderboardList"></div>
+                        <button type="button" id="btnToggleLeaderboard" hidden></button>
+                        <button type="button" id="btnRefreshLeaderboard" hidden></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Pertanyaan -->
+            <div class="quiz-modal" id="quizModal">
+                <div class="quiz-card">
+                    <div class="quiz-header">
+                        <span class="quiz-badge" id="quizBadge">Pertanyaan</span>
+                        <h3 id="quizQuestion">Apa itu judi online?</h3>
+                    </div>
+                    <div class="quiz-options" id="quizOptions">
+                        <!-- diisi via JS -->
+                    </div>
+                    <div class="quiz-feedback" id="quizFeedback"></div>
+                </div>
+            </div>
+
+            <!-- Modal Puzzle Menenun (simple & mobile-friendly) -->
+            <div class="puzzle-modal" id="puzzleModal">
+                <div class="puzzle-card">
+                    <!-- Header kompak: judul + thumbnail target -->
+                    <div class="puzzle-header">
+                        <div class="puzzle-head-left">
+                            <span class="puzzle-badge" id="puzzleBadge">🧵 Puzzle Tenun</span>
+                            <h3 id="puzzleTitle">Susun Pola</h3>
+                        </div>
+                        <div class="puzzle-target-mini">
+                            <img id="puzzleTargetImg" src="https://static.wixstatic.com/media/215118_1b46a6b7f8d1477a9c89c4d2ca861647~mv2.png" alt="Target">
+                            <span class="puzzle-target-label">Target</span>
+                        </div>
+                    </div>
+
+                    <!-- Board -->
+                    <div class="puzzle-board-wrap">
+                        <div class="puzzle-board" id="puzzleBoard"></div>
+                    </div>
+
+                    <!-- Tray pilihan -->
+                    <div class="puzzle-tray" id="puzzleTray"></div>
+
+                    <!-- Feedback -->
+                    <div class="puzzle-feedback" id="puzzleFeedback"></div>
+
+                    <!-- Footer -->
+                    <div class="puzzle-footer">
+                        <button class="game-btn game-btn-secondary puzzle-btn-sm" id="btnPuzzleShuffle">
+                            <span class="material-symbols-rounded">refresh</span>
+                            Ulang
+                        </button>
+                        <button class="game-btn game-btn-primary puzzle-btn-sm" id="btnPuzzleContinue">
+                            <span class="material-symbols-rounded">double_arrow</span>
+                            <span id="btnPuzzleContinueText">Lanjut</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </section>
+            <!-- ========== END SECTION: FLAPPY ENGGANG ========== -->
+
+            <!-- ========== SECTION: QUIZ ANTI-JUDOL ========== -->
+            <section class="game-section game-section-hidden" id="sectionQuiz">
+                <div class="game-section-bar">
+                    <button type="button" class="game-back-btn" data-back>
+                        <span class="material-symbols-rounded">arrow_back</span>
+                        Pilih Game Lain
+                    </button>
+                    <h2 class="game-section-title">
+                        <span class="material-symbols-rounded">extension</span>
+                        Puzzle Menenun
+                    </h2>
+                </div>
+
+                <div class="mini-game-frame mini-game-puzzle">
+                    <!-- Intro Screen -->
+                    <div class="mini-screen mini-screen-intro" id="quizIntro">
+                        <div class="mini-screen-icon">
+                            <span class="material-symbols-rounded">extension</span>
+                        </div>
+                        <h2 class="mini-screen-title">Susun Kain Tenun</h2>
+                        <p class="mini-screen-desc">
+                            Drag &amp; drop potongan-potongan kain tenun ke tempatnya. Setelah <b>puzzle selesai</b>,
+                            jawab <b>soal singkat</b> tentang motif tenun untuk dapat bonus skor!
+                        </p>
+                        <ul class="mini-screen-meta">
+                            <li><span class="material-symbols-rounded">extension</span> 9 potongan</li>
+                            <li><span class="material-symbols-rounded">stars</span> 10 poin / potongan</li>
+                            <li><span class="material-symbols-rounded">help</span> +30 bonus quiz</li>
+                        </ul>
+                        <button type="button" class="mini-btn mini-btn-primary" id="btnQuizStart">
+                            <span class="material-symbols-rounded">play_arrow</span>
+                            Mulai Puzzle
+                        </button>
+                    </div>
+
+                    <!-- Play Screen -->
+                    <div class="mini-screen mini-screen-play mini-screen-hidden" id="quizPlay">
+                        <div class="mini-topbar">
+                            <div class="mini-topbar-item">
+                                <span class="material-symbols-rounded">extension</span>
+                                Potongan: <b id="puzzlePlacedCount">0</b>/<b id="puzzleTotalCount">9</b>
+                            </div>
+                            <div class="mini-topbar-item mini-topbar-score">
+                                <span class="material-symbols-rounded">stars</span>
+                                Skor: <b id="quizScore">0</b>
+                            </div>
+                            <div class="mini-topbar-item mini-topbar-timer" id="quizTimerBox">
+                                <span class="material-symbols-rounded">timer</span>
+                                <b id="quizTimer">0</b>s
+                            </div>
+                        </div>
+
+                        <!-- Puzzle Stage -->
+                        <div class="puzzle-stage" id="puzzleStage">
+                            <div class="puzzle-board" id="puzzleBoard" aria-label="Papan Puzzle">
+                                <!-- slot grid + dropped pieces filled by JS -->
+                            </div>
+                            <div class="puzzle-tray-wrap">
+                                <div class="puzzle-tray-label">
+                                    <span class="material-symbols-rounded">drag_pan</span>
+                                    Tarik potongan ke papan
+                                </div>
+                                <div class="puzzle-tray" id="puzzleTray">
+                                    <!-- pieces injected by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mini-feedback" id="quizFeedback"></div>
+
+                        <!-- Quiz overlay after solving (inline within play screen) -->
+                        <div class="puzzle-quiz-card puzzle-quiz-hidden" id="puzzleQuizCard">
+                            <div class="puzzle-quiz-head">
+                                <span class="material-symbols-rounded">help</span>
+                                <span>Soal Bonus</span>
+                            </div>
+                            <h3 class="puzzle-quiz-text" id="puzzleQuizText">Pertanyaan...</h3>
+                            <div class="puzzle-quiz-options" id="puzzleQuizOptions">
+                                <!-- options injected by JS -->
+                            </div>
+                            <div class="puzzle-quiz-feedback" id="puzzleQuizFeedback"></div>
+                        </div>
+                    </div>
+
+                    <!-- Result Screen -->
+                    <div class="mini-screen mini-screen-result mini-screen-hidden" id="quizResult">
+                        <div class="mini-screen-icon mini-screen-icon-result" id="quizResultIcon">
+                            <span class="material-symbols-rounded">emoji_events</span>
+                        </div>
+                        <h2 class="mini-screen-title" id="quizResultTitle">Selesai!</h2>
+                        <p class="mini-screen-desc" id="quizResultDesc">
+                            Skor akhir kamu: <b><span id="quizFinalScore">0</span> / 120</b>
+                        </p>
+                        <div class="mini-result-stats">
+                            <div class="mini-stat">
+                                <span class="material-symbols-rounded">extension</span>
+                                <span>Potongan: <b id="quizCorrectCount">0</b></span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="material-symbols-rounded">timer</span>
+                                <span>Waktu: <b id="quizWrongCount">0</b>s</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="material-symbols-rounded">help</span>
+                                <span>Bonus Quiz: <b id="quizTimeoutCount">0</b></span>
+                            </div>
+                        </div>
+                        <div class="mini-result-actions">
+                            <button type="button" class="mini-btn mini-btn-primary" id="btnQuizRestart">
+                                <span class="material-symbols-rounded">restart_alt</span>
+                                Main Lagi
+                            </button>
+                            <button type="button" class="mini-btn mini-btn-secondary" data-back>
+                                <span class="material-symbols-rounded">apps</span>
+                                Pilih Game Lain
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ========== END SECTION: PUZZLE MENENUN ========== -->
+
+            <!-- ========== SECTION: TEBAK PASAL ========== -->
+            <section class="game-section game-section-hidden" id="sectionPasal">
+                <div class="game-section-bar">
+                    <button type="button" class="game-back-btn" data-back>
+                        <span class="material-symbols-rounded">arrow_back</span>
+                        Pilih Game Lain
+                    </button>
+                    <h2 class="game-section-title">
+                        <span class="material-symbols-rounded">gavel</span>
+                        Tebak Pasal
+                    </h2>
+                </div>
+
+                <div class="mini-game-frame mini-game-pasal">
+                    <!-- Intro Screen -->
+                    <div class="mini-screen mini-screen-intro" id="pasalIntro">
+                        <div class="mini-screen-icon">
+                            <span class="material-symbols-rounded">balance</span>
+                        </div>
+                        <h2 class="mini-screen-title">Tebak Pasal yang Dilanggar</h2>
+                        <p class="mini-screen-desc">
+                            Baca <b>deskripsi kasus</b>, lalu pilih <b>pasal / UU</b> yang paling tepat dilanggar.
+                            Cocok buat menguji hafalan hukum judi online di Indonesia.
+                        </p>
+                        <ul class="mini-screen-meta">
+                            <li><span class="material-symbols-rounded">menu_book</span> 8 kasus acak</li>
+                            <li><span class="material-symbols-rounded">stars</span> 10 poin / benar</li>
+                            <li><span class="material-symbols-rounded">lightbulb</span> Ada penjelasan</li>
+                        </ul>
+                        <button type="button" class="mini-btn mini-btn-primary" id="btnPasalStart">
+                            <span class="material-symbols-rounded">play_arrow</span>
+                            Mulai Tebak
+                        </button>
+                    </div>
+
+                    <!-- Play Screen -->
+                    <div class="mini-screen mini-screen-play mini-screen-hidden" id="pasalPlay">
+                        <div class="mini-topbar">
+                            <div class="mini-topbar-item">
+                                <span class="material-symbols-rounded">menu_book</span>
+                                Kasus <b id="pasalQNum">1</b>/<b id="pasalQTotal">8</b>
+                            </div>
+                            <div class="mini-topbar-item mini-topbar-score">
+                                <span class="material-symbols-rounded">stars</span>
+                                Skor: <b id="pasalScore">0</b>
+                            </div>
+                        </div>
+
+                        <div class="mini-question-card mini-question-card-case">
+                            <span class="mini-question-badge mini-badge-case">Kasus</span>
+                            <p class="mini-case-text" id="pasalCaseText">Deskripsi kasus...</p>
+                        </div>
+
+                        <div class="mini-options" id="pasalOptionsList">
+                            <!-- diisi via JS -->
+                        </div>
+
+                        <div class="mini-feedback" id="pasalFeedback"></div>
+
+                        <div class="mini-next-wrap mini-next-hidden" id="pasalNextWrap">
+                            <button type="button" class="mini-btn mini-btn-primary" id="btnPasalNext">
+                                <span class="material-symbols-rounded">double_arrow</span>
+                                <span id="btnPasalNextText">Soal Berikutnya</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Result Screen -->
+                    <div class="mini-screen mini-screen-result mini-screen-hidden" id="pasalResult">
+                        <div class="mini-screen-icon mini-screen-icon-result" id="pasalResultIcon">
+                            <span class="material-symbols-rounded">workspace_premium</span>
+                        </div>
+                        <h2 class="mini-screen-title" id="pasalResultTitle">Selesai!</h2>
+                        <p class="mini-screen-desc" id="pasalResultDesc">
+                            Skor akhir kamu: <b><span id="pasalFinalScore">0</span> / 80</b>
+                        </p>
+                        <div class="mini-result-stats">
+                            <div class="mini-stat">
+                                <span class="material-symbols-rounded">check_circle</span>
+                                <span>Benar: <b id="pasalCorrectCount">0</b></span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="material-symbols-rounded">cancel</span>
+                                <span>Salah: <b id="pasalWrongCount">0</b></span>
+                            </div>
+                        </div>
+                        <div class="mini-result-actions">
+                            <button type="button" class="mini-btn mini-btn-primary" id="btnPasalRestart">
+                                <span class="material-symbols-rounded">restart_alt</span>
+                                Main Lagi
+                            </button>
+                            <button type="button" class="mini-btn mini-btn-secondary" data-back>
+                                <span class="material-symbols-rounded">apps</span>
+                                Pilih Game Lain
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ========== END SECTION: TEBAK PASAL ========== -->
+        </div>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-group">
+                    <div class="footer-group-icon">
+                        <span class="material-symbols-rounded">code</span>
+                    </div>
+                    <h4>Dibuat Oleh</h4>
+                    <ol>
+                        <li>Ramadhani Fadil Pratama</li>
+                        <li>Febrian Dinda Cholifani</li>
+                    </ol>
+                </div>
+                <div class="footer-divider"></div>
+                <div class="footer-group">
+                    <div class="footer-group-icon">
+                        <span class="material-symbols-rounded">favorite</span>
+                    </div>
+                    <h4>Terimakasih Guruku</h4>
+                    <ol>
+                        <li>Atika Yuliana Ichsani, S.Pd</li>
+                        <li>Ibu Masita Muntazah, S.Pd</li>
+                    </ol>
+                </div>
+                <div class="footer-divider"></div>
+                <div class="footer-group">
+                    <div class="footer-group-icon">
+                        <span class="material-symbols-rounded">school</span>
+                    </div>
+                    <h4>Terimakasih Sekolahku</h4>
+                    <p class="school-name">SMK Negeri 18 Samarinda</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js?v=4"></script>
+    <script src="game.js?v=35"></script>
+    <script src="mini-games.js?v=8"></script>
+</body>
+
+</html>
